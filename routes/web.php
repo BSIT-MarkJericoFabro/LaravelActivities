@@ -17,6 +17,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Auth::routes();
+
+// Route::resources([
+//     '/posts' => PostController::class,
+//     '/home' => HomeController::class,
+//     '/login' => LoginController::class,
+// ]);
+
+Route::resource('posts', 'App\Http\Controllers\PostController');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
