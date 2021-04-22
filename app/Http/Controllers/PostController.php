@@ -41,16 +41,43 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
-        //
-      // dd($request);
+        $request->validate([
+            'Title' => 'required|max:100',
+            'Description' => 'required',
+        ]);
+
+        if($request->hasFile('img')){
+
+            $filenameWithExt = $request->file('img')->getClientOriginalName();
+
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+
+            $extension = $request->file('img')->getClientOriginalExtension();
+
+            $filenameToStore = $filename.'_'.time().'.'.$extension;
+
+            $path = $request->file('img')->storeAs('public/img', $filenameToStore);
+        } 
+        else {
+            $filenameToStore = '';
+        }
+
         $post = new Post();
         $post->Title = $request->Title;
         $post->Description = $request->Description;
+        $post->img = $request->img;
         $post->save();
 
-        return redirect('/posts');
+        if ($post->save()) {
+            return redirect('/posts')->with('status', 'Sucessfully save');
+        } else {
+            return redirect('/posts')->with('status', 'Failed to save');
+        }
+
+        // return redirect('/posts');
 
     }
 
