@@ -13,12 +13,13 @@
                     Title : {{ $post->Title }} <br>
                     Description : {{ $post->Description }} <br>
                     Created At : {{ $post->created_at }} <br>
-                    Post Image:
-                    @if ($post->img)
+                    @if ($post->img != '')
+                    Image:
+
                         <img src="{{ URL::asset('/storage/img/'.$post->img) }} " alt="{{ $post->img }}" style="width:100px; height:100px;"/>
-                    @else
-                        No image available
                     @endif
+
+                    @include('/posts/comments')
                 </div>
             </div>
         </div>
