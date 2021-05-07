@@ -13,12 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-
-Auth::routes();
 
 // Route::resources([
 //     '/posts' => PostController::class,
@@ -26,6 +24,12 @@ Auth::routes();
 //     '/login' => LoginController::class,
 // ]);
 
-Route::resource('posts', 'App\Http\Controllers\PostController');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Auth::routes();
+Route::get('/home', function () {
+    return redirect('posts');
+});
+
+Route::resource('posts', 'App\Http\Controllers\PostController');
+Route::resource('comments', 'App\Http\Controllers\CommentController');

@@ -91,7 +91,8 @@ class PostController extends Controller
     {
         //
         $post = \App\Models\Post::find($id);
-        return view('posts.show', compact('post'));
+        $comments = $post->comments;
+        return view('posts.show', compact('post','comments'));
         // dd($post);
     }
 
